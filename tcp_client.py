@@ -8,10 +8,29 @@ use python "input->" function, enter a line of a few letters, such as "abcd"
 import socket
 
 def main():
-    # TODO: Create a socket and connect it to the server at the designated IP and port
-    # TODO: Get user input and send it to the server using your TCP socket
-    # TODO: Receive a response from the server and close the TCP connection
-    pass
+    HOST = 'localhost'
+    PORT = 8888
+    
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    
+    try:
+        client_socket.connect((HOST, PORT))
+        print(f"Connected to server at {HOST}:{PORT}")
+        
+        message = input("Enter a message to send to the server: ")
+        
+        client_socket.send(message.encode('utf-8'))
+        
+        response = client_socket.recv(256)
+        print(f"Server response: {response.decode('utf-8')}")
+        
+    except ConnectionRefusedError:
+        print(f"Could not connect to server at {HOST}:{PORT}")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        client_socket.close()
+        print("Connection closed")
 
 
 if __name__ == '__main__':

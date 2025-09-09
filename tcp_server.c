@@ -18,17 +18,20 @@ void error(const char *msg)
 int main(int argc, char *argv[])
 {
     /* 1. What is argc and *argv[]?
-     *
+     * argc is the argument count, and argv is the argument vector (array of strings).
      */
     int sockfd, newsockfd, portno;
     /* 2. What is a UNIX file descriptor and file descriptor table?
-     *
+     * A UNIX file descriptor is a non-negative integer that uniquely identifies an open file (or socket) within a process. The file descriptor table is a data structure maintained by the kernel that maps file descriptors to their corresponding open file descriptions.
      */
     socklen_t clilen;
 
     struct sockaddr_in serv_addr, cli_addr;
     /* 3. What is a struct? What's the structure of sockaddr_in?
-     *
+     * A struct is a user-defined data type in C that allows the grouping of related variables of different types. The sockaddr_in structure is used to specify an endpoint address for the socket and contains the following members:
+     * - sin_family: Address family (e.g., AF_INET for IPv4)
+     * - sin_port: Port number (in network byte order)
+     * - sin_addr: IP address (in network byte order)
      */
     
     int n;
@@ -39,7 +42,11 @@ int main(int argc, char *argv[])
     
     sockfd = socket(AF_INET, SOCK_STREAM, 0);
     /* 4. What are the input parameters and return value of socket()
-     *
+     * The input parameters of socket() are:
+     * - domain: Specifies the communication domain (e.g., AF_INET for IPv4)
+     * - type: Specifies the communication semantics (e.g., SOCK_STREAM for TCP)
+     * - protocol: Specifies a particular protocol to be used with the socket (0 for default)
+     * The return value is a file descriptor for the new socket, or -1 on error
      */
     
     if (sockfd < 0) 
@@ -54,7 +61,6 @@ int main(int argc, char *argv[])
              sizeof(serv_addr)) < 0) 
              error("ERROR on binding");
     /* 5. What are the input parameters of bind() and listen()?
-     *
      */
     
     listen(sockfd,5);
