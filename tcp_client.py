@@ -8,7 +8,7 @@ use python "input->" function, enter a line of a few letters, such as "abcd"
 import socket
 
 def main():
-    HOST = 'localhost'
+    HOST = '192.169.0.188'
     PORT = 8888
     
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

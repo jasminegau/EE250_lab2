@@ -61,6 +61,8 @@ int main(int argc, char *argv[])
              sizeof(serv_addr)) < 0) 
              error("ERROR on binding");
     /* 5. What are the input parameters of bind() and listen()?
+     * bind() parameters: socket file descriptor, pointer to sockaddr structure, size of address structure
+     * listen() parameters: socket file descriptor, backlog (maximum number of pending connections)
      */
     
     listen(sockfd,5);
@@ -68,6 +70,8 @@ int main(int argc, char *argv[])
     
     while(1) {
         /* 6.  Why use while(1)? Based on the code below, what problems might occur if there are multiple simultaneous connections to handle?
+        * while(1) creates an infinite loop to continuously accept new client connections. 
+        * Problems with multiple simultaneous connections: The server handles connections sequentially, blocking on each client until it disconnects. This means other clients must wait, creating a bottleneck and poor performance under load.
         *
         */
         
@@ -76,7 +80,7 @@ int main(int argc, char *argv[])
                     (struct sockaddr *) &cli_addr, 
                     &clilen);
 	/* 7. Research how the command fork() works. How can it be applied here to better handle multiple connections?
-         * 
+         * fork() creates a child process that is an exact copy of the parent process. It can be applied here by calling fork() after accept() to create a child process for each client connection. The child handles the client communication while the parent continues accepting new connections, enabling concurrent handling of multiple clients.
          */
         
 	if (newsockfd < 0) 
@@ -97,5 +101,5 @@ int main(int argc, char *argv[])
 }
   
 /* This program makes several system calls such as 'bind', and 'listen.' What exactly is a system call?
- *
+ * A system call is a programmatic way for a program to request a service from the operating system's kernel. System calls provide the interface between user-space applications and the kernel, allowing programs to perform operations like file I/O, network communication, process management, and memory allocation that require kernel privileges.
  */
