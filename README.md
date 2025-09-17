@@ -17,25 +17,44 @@ TCP still delivered all the packets correctly. TCP is a connection-oriented prot
 Question 3:
 TCP became slower under packet loss. Retransmissions and congestion-control mechanisms introduced delays, reducing the overall speed.
 
-Question 4: What are the input parameters and return value of socket()
-The input parameters of socket() are:
-- **domain:** Specifies the communication domain 
-- **type:** Specifies the communication semantics 
-- **protocol:** Specifies a particular protocol to be used with the socket
-The **return value is a file descriptor** for the new socket, or -1 on error.
+1. What is argc and *argv[]?
+argc: argument count, argv: argument vector (array of strings)
 
-Question 5: What are the input parameters of bind() and listen()?
-**bind() parameters:** socket file descriptor, pointer to sockaddr structure, size of address structure
-**listen() parameters:** socket file descriptor, backlog (An integer that defines the maximum length for the queue of pending connections)
+2. What is a UNIX file descriptor and file descriptor table?
+UNIX file descriptor: a non-negative integer that uniquely identifies an open file (or socket) within a process. 
+File descriptor table: a data structure maintained by the kernel that maps file descriptors to the corresponding open file descriptions.
 
-Question 6:
-Why use while(1)? Based on the code below, what problems might occur if there are multiple simultaneous connections to handle?
-while(1) creates an infinite loop to accept new client connections continuously. During multiple simultaneous connections, the server handles connections sequentially, thus blocking on each client until it disconnects. This means other clients must wait which will create a bottleneck and poor performance under load.
+3. What is a struct? What's the structure of sockaddr_in?
+struct: user-defined data type used to group related vars that are diff types. 
+sockaddr_in structure: specify an endpoint address for the socket and contains:
+- sin_family: address family like AF_INET
+- sin_port: port number 
+- sin_addr: IP address 
 
-Question 7: Research how the command fork() works. How can it be applied here to better handle multiple connections?
-**fork()** creates a child process that is an exact copy of the parent process. This can be applied here by calling **fork()** after **accept()**, which creates a child process for each client connection. The child handles the client communication while the parent continues accepting new connections, enabling concurrent handling of multiple clients.
+4. What are the input parameters and return value of socket()
+Inputs: 
+- domain: communication domain 
+- type: communication semantics
+- protocol: protocol to be used with the socket 
+Return value: a file descriptor for the new socket; -1 if error
 
-Question 8: This program makes several system calls such as 'bind', and 'listen.' What exactly is a system call?
-**A system call** is a programmatic way for a program to request a service from the operating system's kernel. System calls will provide the interface between user-space applications and the kernel, allowing programs to perform operations like file I/O, network communication, process management, and memory allocation that require kernel privileges.
+5. What are the input parameters of bind() and listen()?
+bind(): 
+- sockfd: socket file descriptor
+- &serv_addr: pointer to sockaddr structure
+- sizeof(serv_addr): size of address structure
+listen(): 
+sockfd: socket file descriptor
+backlog: max num of pending connections
+
+6.  Why use while(1)? Based on the code below, what problems might occur if there are multiple simultaneous connections to handle?
+while(1) creates a loop to accept new client connections continuously
+Problems: The server handles connections sequentially, so they will block other clients until itself disconnects. Therefore, other clients must wait and this might lead to bottleneck.
+
+7. Research how the command fork() works. How can it be applied here to better handle multiple connections?
+fork(): creates a child process that is the same copy of the parent process. It can be applied here by calling fork() after accept() to create a child process for each client connection. The child will then handle the client communication while the parent continues accepting new connections, this enables concurrent handling of multiple clients.
+
+8. This program makes several system calls such as 'bind', and 'listen.' What exactly is a system call?
+system call: a way for a program to request a service from the operating system's kernel. IT provides the interface between user-space applications and the kernel, which allows programs to perform operations that requires kernel to do so, like network communication and memory allocation.
 
 
