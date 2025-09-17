@@ -5,15 +5,17 @@
 - Jenny Lin
 
 ## Lab Question Answers
+**Question 4: If you used LLMs for any part of this lab, explain how you used it.**
+Google and ChatGPT were used to refine my answers for precision.
 
 Answer for Question 1: 
-When the 50% loss was added, approximately half of the messages sent from the UDP client never arrived at the server. This is because UDP is connectionless, best-effort protocol. It does not provide acknowledgments, retransmissions, or error correction. If a packet is dropped in the network, UDP does not attempt to resend it, so lost packets are never recovered.
+When the 50% loss was added, approximately half of the messages sent from the UDP client never arrived at the server. This is because UDP has no connection and no guarantee. However, it lacks error checking, so it does not provide acknowledgements and retransmissions. If a packet is dropped in the network, UDP does not attempt to resend it, so lost packets are never recovered.
 
 Question 2:
 TCP still delivered all the packets correctly. TCP is a connection-oriented protocol that guarantees reliable delivery by retransmitting lost packets and maintaining ordering. If a packet is dropped, TCP retransmits it after detecting the loss (via missing acknowledgments or timeouts).
 
 Question 3:
-TCP became slower under packet loss. Retransmissions and congestion-control mechanisms introduced delays, reducing overall speed.
+TCP became slower under packet loss. Retransmissions and congestion-control mechanisms introduced delays, reducing the overall speed.
 
 Question 4: What are the input parameters and return value of socket()
 The input parameters of socket() are:
@@ -35,3 +37,5 @@ Question 7: Research how the command fork() works. How can it be applied here to
 
 Question 8: This program makes several system calls such as 'bind', and 'listen.' What exactly is a system call?
 **A system call** is a programmatic way for a program to request a service from the operating system's kernel. System calls will provide the interface between user-space applications and the kernel, allowing programs to perform operations like file I/O, network communication, process management, and memory allocation that require kernel privileges.
+
+
